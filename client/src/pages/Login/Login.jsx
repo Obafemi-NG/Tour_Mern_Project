@@ -13,6 +13,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setFormValue(initialState);
   };
   const handleChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
@@ -26,37 +27,40 @@ const Login = () => {
         </div>
         <h2> Login </h2>
       </div>
-      <form onSubmit={handleSubmit} className={styles["input-container"]}>
+
+      <div className={styles["input-container"]}>
         <div className={styles["input-section"]}>
-          <label htmlFor="email"> Email </label>
           <input
             type="email"
             name="email"
             value={email}
+            required
             onChange={handleChange}
             pattern="[a-z0-9]+@[a-z]+.[a-z]{2,3}"
-            placeholder="johndoe@gmail.com"
           />
+          <label htmlFor="email"> Email </label>
         </div>
         <div className={styles["input-section"]}>
-          <label htmlFor="email"> Password </label>
           <input
             type="password"
             name="password"
             value={password}
             onChange={handleChange}
-            placeholder="*******"
+            required
             pattern="^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$"
           />
+          <label htmlFor="email"> Password </label>
         </div>
-      </form>
+      </div>
       <div className={styles.footer}>
         <div className={styles.cta}>
-          <button className={styles.btn}>Login</button>
+          <button onClick={handleSubmit} className={styles.btn}>
+            Login
+          </button>
         </div>
-        <p>
+        <p className={styles["footer-text"]}>
           {" "}
-          Don't have an account yet?{" "}
+          <span className={styles.text}> Don't have an account yet? </span>{" "}
           <Link to="/register">
             {" "}
             <span className={styles.link}> Sign Up </span>{" "}
