@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./CustomInput.module.css";
 
-const CustomInput = ({ onChange, label, errorMsg, ...otherProps }) => {
+const CustomInput = ({ onChange, value, label, errorMsg, ...otherProps }) => {
   const [focus, setFocus] = useState(false);
   const onBlurHandler = () => {
     setFocus(true);
@@ -11,6 +11,7 @@ const CustomInput = ({ onChange, label, errorMsg, ...otherProps }) => {
       <input
         onBlur={onBlurHandler}
         onChange={onChange}
+        value={value}
         focus={focus.toString()}
         {...otherProps}
       />
