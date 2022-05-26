@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Login.module.css";
 import { ReactComponent as LoginIcon } from "../../assets/users-solid.svg";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import CustomInput from "../../components/CustomInput/CustomInput";
+import { login } from "../../redux/features/auth.slice";
 
 const initialState = {
   email: "",
@@ -11,10 +14,15 @@ const initialState = {
 const Login = () => {
   const [formValue, setFormValue] = useState(initialState);
   const { email, password } = formValue;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setFormValue(initialState);
+    if (email && password) {
+      dispatch(login({ formValue, toast, navigate }));
+      // console.log(email, password);
+    }
   };
   const handleChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
