@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Register.module.css";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import { ReactComponent as LoginIcon } from "../../assets/users-solid.svg";
@@ -76,7 +76,12 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading } = useSelector((state) => ({ ...state.auth }));
+  const { loading, error } = useSelector((state) => ({ ...state.auth }));
+
+  useEffect(() => {
+    error && toast.error(error);
+  }, [error]);
+
   const handleChange = (e) => {
     const { value, name } = e.target;
     setFormValue({
@@ -86,6 +91,9 @@ const Register = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      return toast.error("Passwords provided does not match!");
+    }
     if (firstName && lastName && email && password && confirmPassword) {
       dispatch(signUp({ formValue, toast, navigate }));
     }
