@@ -3,8 +3,10 @@ import styles from "./Register.module.css";
 import CustomInput from "../../components/CustomInput/CustomInput";
 import { ReactComponent as LoginIcon } from "../../assets/users-solid.svg";
 import { SpinnerCircular } from "spinners-react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+import { signUp } from "../../redux/features/auth.slice";
 
 const INITIAL_STATE = {
   firstName: "",
@@ -20,24 +22,27 @@ const Register = () => {
   const inputs = [
     {
       id: "firstName",
+      name: "firstName",
       label: "First Name",
       value: firstName,
       type: "text",
       required: true,
       errorMsg: "Please provide a valid First Name",
-      pattern: "[a-zA-Z]",
+      pattern: "[a-zA-Z]{2,}",
     },
     {
       id: "lastName",
+      name: "lastName",
       label: "Last Name",
       value: lastName,
       type: "text",
       required: true,
       errorMsg: "Please provide a valid Last Name",
-      pattern: "[a-zA-Z]",
+      pattern: "[a-zA-Z]{2,}",
     },
     {
       id: "email",
+      name: "email",
       label: "E-mail",
       value: email,
       type: "email",
@@ -47,6 +52,7 @@ const Register = () => {
     },
     {
       id: "password",
+      name: "password",
       label: "Password",
       value: password,
       type: "password",
@@ -57,6 +63,7 @@ const Register = () => {
     },
     {
       id: "confirmPassword",
+      name: "confirmPassword",
       label: "Confirm Password",
       value: confirmPassword,
       type: "password",
@@ -65,10 +72,23 @@ const Register = () => {
       pattern: "^(?=.*[0-9])(?=.*[!@#$_%^&*])[a-z0-9!@#$_%^&*]{6,16}$",
     },
   ];
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { loading } = useSelector((state) => ({ ...state.auth }));
-  const handleChange = (e) => {};
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (firstName && lastName && email && password && confirmPassword) {
+      dispatch(signUp({ formValue, toast, navigate }));
+    }
   };
 
   return (
