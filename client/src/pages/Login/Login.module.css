@@ -132,3 +132,12 @@ input:valid {
   color: #066163;
   font-weight: 500;
 }
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinner {
+  margin-right: 10px;
+}
