@@ -46,6 +46,7 @@ input:valid ~ label {
   font-size: 12px;
   margin-top: -8px;
   display: none;
+  margin-bottom: 0;
 }
 input:invalid ~ .error-msg {
   display: block;
